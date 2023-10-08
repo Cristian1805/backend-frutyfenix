@@ -2,17 +2,20 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+require('dotenv').config()
+
+
 const app = express();
-const port = 5173;
+const port = process.env.PORT;
 
 // Conexión a MongoDB
-mongoose.connect('mongodb+srv://user_admin:k0eS7TcRKW6nWlQi@cursoprueba.9oelimp.mongodb.net/FrutyFenix', {
+mongoose.connect('mongodb+srv://user_admin:k0eS7TcRKW6nWlQi@cursoprueba.9oelimp.mongodb.net/Inventario-FrutyFenix', {
   useNewUrlParser: true,
   useUnifiedTopology: true, 
 }).then(() => {
   console.log('Conexión a MongoDB establecida');
 }).catch((err) => {
-  console.error('Error de conexión a MongoDB', err);
+  console.error('Error de conexión a MongoDB', err); 
 });
 
 // Modelo de Proveedor
@@ -53,6 +56,28 @@ app.post('/proveedores', async (req, res) => {
     res.status(500).json({ error: 'Error al crear el proveedor' });
   }
 });
+
+//Gets all the urls
+app.get('/proveedores', async (req, res) => {
+  const filter = {};
+  const all = await Proveedor.find(filter);
+  res.send(all)
+})
+
+
+//Gets the url by id
+app.get('/proveedores/:id', (req, res) => {
+  res.send(`Gets the url with id ${req.params.id}`)
+})
+
+app.put('/proveedores/:id', (req, res) => {
+  res.send(`Updates the url with id ${req.params.id}`)
+})
+
+app.delete('/proveedores/:id', (req, res) => {
+  res.send(`Removes the url with id ${req.params.id}`)
+})
+
 
 // Iniciar el servidor
 app.listen(port, () => {
