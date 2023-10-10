@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT;
 
 // Conexión a MongoDB
-mongoose.connect('mongodb+srv://user_admin:k0eS7TcRKW6nWlQi@cursoprueba.9oelimp.mongodb.net/Inventario-FrutyFenix', {
+mongoose.connect(process.env.URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true, 
 }).then(() => {
@@ -37,47 +37,41 @@ app.use(express.json());
 // Ruta para crear un nuevo proveedor
 app.post('/proveedores', async (req, res) => {
   try {
-    const { nombre, direccion, correo, telefono } = req.body;
-
-    // Crea un nuevo proveedor en la base de datos
-    const nuevoProveedor = new Proveedor({
-      nombre,
-      direccion,
-      correo,
-      telefono,
-    });
-
-    // Guarda el proveedor en la base de datos
+    const { nombre, direccion, correo, telefono } = req.body;    
+    const nuevoProveedor = new Proveedor({nombre, direccion, correo, telefono});    
     await nuevoProveedor.save();
-
     res.status(201).json({ mensaje: 'Proveedor creado con éxito' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al crear el proveedor' });
+    res.status(500).json({ error: 'Error al crear el proveedor' }); 
   }
 });
 
-//Gets all the urls
+//Leer todos
 app.get('/proveedores', async (req, res) => {
   const filter = {};
   const all = await Proveedor.find(filter);
   res.send(all)
 })
 
-
-//Gets the url by id
-app.get('/proveedores/:id', (req, res) => {
-  res.send(`Gets the url with id ${req.params.id}`)
+//Leer por id
+app.get('/proveedores/:id', async (req, res) => {
+  const response = await Proveedor.findById(req.params.id)
+  res.send(response)
 })
 
-app.put('/proveedores/:id', (req, res) => {
-  res.send(`Updates the url with id ${req.params.id}`)
+//Actualizar
+app.put('/proveedores/:id',async (req, res) => {  
+  console.log(req.body)
+  const response = await Proveedor.updateOne({_id:req.params.id}, req.body)
+  res.send(response)  
 })
 
-app.delete('/proveedores/:id', (req, res) => {
-  res.send(`Removes the url with id ${req.params.id}`)
+//Eliminar
+app.delete('/proveedores/:id', async (req, res) => {  
+  const response = await Proveedor.deleteOne({_id:req.params.id});
+  res.send(response)
 })
-
 
 // Iniciar el servidor
 app.listen(port, () => {
