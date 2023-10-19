@@ -22,8 +22,17 @@ module.exports = {
     },
 
     findById: async (id_producto) => {      
-      return await productoModel.findById(id_producto);      
-    }
+      return await productoModel.findById(id_producto);
+
+    },
+
+    updateProducto: async (id_producto, updatedProducto) => {
+      return await productoModel.findByIdAndUpdate(id_producto, updatedProducto, { new: true });
+  },
+
+    deleteProducto: async (id_producto) => {
+      return await productoModel.findByIdAndRemove(id_producto);
+  }
 
 }
 
