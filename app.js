@@ -37,6 +37,10 @@ app.use(cors());
 // Middleware para analizar JSON en las solicitudes
 app.use(express.json());
 
+
+//Ruta para autenticacion del usuario
+app.use('/api/auth', require('./routes/auth'));
+
 // Ruta para crear un nuevo proveedor
 app.post('/proveedores', async (req, res) => {
   try {
