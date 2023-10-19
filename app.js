@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 
 require('dotenv').config()
 
-
 const app = express();
+
+const productos = require('./productos/productos_controlador')
+app.use('/productos', productos)
+
 const port = process.env.PORT;
 
 // Conexión a MongoDB
