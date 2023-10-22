@@ -54,7 +54,45 @@ const loginUsuario = (req, res = reponse) => {
     
     
     
-    const{email, password } = ( req.body );
+    const {email, password } = ( req.body );
+
+    try {
+
+        const usuario = Usuario.findOne({email})
+
+        if ( usuario ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Un usuario no existe con ese email'
+            });
+        }
+
+
+        //Confirmar los passwords
+        const validPassword = bcrypt.compareSync (password, usuario.password);
+
+        if ( !validPassword ){
+            return res.status(400).json({
+                ok: false,
+                msg: 'Password incorrecto'
+            });
+        }
+
+
+        //Generar JWT (Json Web Token)
+
+
+
+
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Por Favor hable con el administrador' 
+        });
+        
+    }
     
     res.json({
         ok: true,
