@@ -3,23 +3,18 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 require('dotenv').config()
+const { dbConnection } = require('./database/config');
 
 const app = express();
 
-const productos = require('./productos/productos_controlador')
+
+//Configurarion de base de datos
+dbConnection();
+
+const productos = require('./productos/productos_controlador');
 app.use('/productos', productos)
 
 const port = process.env.PORT;
-
-// Conexión a MongoDB
-mongoose.connect(process.env.URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true, 
-}).then(() => {
-  console.log('Conexión a MongoDB establecida');
-}).catch((err) => {
-  console.error('Error de conexión a MongoDB', err); 
-});
 
 // Modelo de Proveedor
 const proveedorSchema = new mongoose.Schema({
@@ -85,6 +80,6 @@ app.delete('/proveedores/:id', async (req, res) => {
 })
 
 // Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor Express escuchando en el puerto ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Servidor Express corriendo en el puerto ${port}`);
 });
