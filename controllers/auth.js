@@ -64,9 +64,9 @@ const loginUsuario = async (req, res = reponse) => {
 
     try {
 
-        const usuario = await Usuario.findOne({email})
+        const usuario = await Usuario.findOne({ email })
 
-        if ( usuario ) {
+        if ( !usuario ) {
             return res.status(400).json({
                 ok: false,
                 msg: 'Un usuario no existe con ese email'
@@ -81,7 +81,7 @@ const loginUsuario = async (req, res = reponse) => {
             return res.status(400).json({
                 ok: false,
                 msg: 'Password incorrecto'
-            });
+            }); 
         }
 
         
