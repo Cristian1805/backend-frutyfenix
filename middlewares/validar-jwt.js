@@ -1,5 +1,5 @@
 const { response } = require('express');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 
 const validarJWT = async (req, res= response, next ) => {
@@ -33,6 +33,10 @@ const validarJWT = async (req, res= response, next ) => {
             msg: 'token no valido'
         })        
     }
+
+
+
+    next();
 
 }
 

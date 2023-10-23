@@ -95,10 +95,7 @@ const loginUsuario = async (req, res = reponse) => {
             name: usuario.name, 
             token
 
-        })
-
-
-
+        });
 
         
     } catch (error) {
@@ -106,7 +103,7 @@ const loginUsuario = async (req, res = reponse) => {
         res.status(500).json({
             ok: false,
             msg: 'Por Favor hable con el administrador' 
-        });
+        }); 
         
     }
 }
@@ -118,14 +115,12 @@ const revalidarToken = async (req, res = reponse) => {
 
 
     //GENERAR UN NUEVO JWT Y RETORNARLO EN LA PETICION
-
     const token = await generarJWT(uid, name);
 
     res.json({
         ok: true,
         uid, name,
         token 
-
     })
 };
 
