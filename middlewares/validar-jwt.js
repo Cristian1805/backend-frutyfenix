@@ -35,7 +35,7 @@ const validarJWT = async (req, res= response, next ) => {
     }
 
 
-
+    //Revalidar json web tokens
     next();
 
 }
