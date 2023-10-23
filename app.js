@@ -26,7 +26,7 @@ const proveedorSchema = new mongoose.Schema({
 
 const Proveedor = mongoose.model('Proveedor', proveedorSchema);
 
-// Middleware para habilitar CORS
+// Middleware para habilitar CORS -> Seguridad en las rutas
 app.use(cors());
 
 // // Middleware para analizar JSON en las solicitudes
