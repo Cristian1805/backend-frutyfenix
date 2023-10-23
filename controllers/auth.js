@@ -1,6 +1,7 @@
 const { response } = require('express');
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/Usuario');
+const { generarJWT } = require('../helpers/jwt');
 
 
 
@@ -10,7 +11,7 @@ const crearUsuario= async (req, res = response ) => {
     const{ email, password } = req.body;
 
     try {
-        let usuario = Usuario.findOne({email})
+        let usuario = await Usuario.findOne({email})
 
         if ( usuario ) {
             return res.status(400).json({
@@ -26,31 +27,36 @@ const crearUsuario= async (req, res = response ) => {
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
     
+
         await usuario.save();
-    
-    
+
+        //Generar JWT(Json Web Token)
+        const token = await generarJWT(usuario.id, usuario.name);
+        
+        
         //Mensaje http despues de haber creado un usuario    
         res.status(201).json({
             ok: true,
             uid: usuario.id,
-            name: usuario.name
+            name: usuario.name,
+            token
         });
-
+        
         
     } catch (error) {
-
+        
         console.log(error)
         res.status(500).json({
             ok: false,
             msg: 'Por Favor hable con el administrador' 
         });
-    
+        
     }
-
-
+    
+    
 }
 
-const loginUsuario = (req, res = reponse) => {
+const loginUsuario = async (req, res = reponse) => {
     
     
     
@@ -58,7 +64,7 @@ const loginUsuario = (req, res = reponse) => {
 
     try {
 
-        const usuario = Usuario.findOne({email})
+        const usuario = await Usuario.findOne({email})
 
         if ( usuario ) {
             return res.status(400).json({
@@ -78,8 +84,18 @@ const loginUsuario = (req, res = reponse) => {
             });
         }
 
+        
+        
+        //Generar JWT(Json Web Token)
+        const token = await generarJWT(usuario.id, usuario.name);
 
-        //Generar JWT (Json Web Token)
+        res.json({
+            ok: true,
+            uid: usuario.id,
+            name: usuario.name, 
+            token
+
+        })
 
 
 
@@ -93,12 +109,6 @@ const loginUsuario = (req, res = reponse) => {
         });
         
     }
-    
-    res.json({
-        ok: true,
-        msg: 'login',
-        email, password
-    })
 }
 
 const revalidarToken = (req, res = reponse) => {
