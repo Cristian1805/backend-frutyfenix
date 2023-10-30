@@ -9,6 +9,7 @@ router.use(express.json())
 router.post('/', async (req, res) => {
   try{    
     const inventario = new CreateInventarioDto(req.body)
+    inventario.cantidad = parseInt(inventario.cantidad);
     const busqueda = await service.search(inventario.id_producto, inventario.calibre);
     if ( busqueda ) {
       const id_inventario = busqueda._id;

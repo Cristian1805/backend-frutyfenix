@@ -5,8 +5,11 @@ const mongoose = require('mongoose');
 require('dotenv').config()
 const { dbConnection } = require('./database/config');
 
+
 const app = express();
 
+// Middleware para habilitar CORS -> Seguridad en las rutas
+app.use(cors()); 
 
 //Configurarion de base de datos
 dbConnection();
@@ -29,8 +32,6 @@ const proveedorSchema = new mongoose.Schema({
 
 const Proveedor = mongoose.model('Proveedor', proveedorSchema);
 
-// Middleware para habilitar CORS -> Seguridad en las rutas
-app.use(cors());
 
 
 //Parseo y lectura del body
@@ -38,7 +39,7 @@ app.use(express.json());
 
 
 //Ruta para autenticacion del usuario
-app.use('/api/auth', require('./routes/auth'));
+app.use('/auth', require('./routes/auth'));
 
 // Ruta para crear un nuevo proveedor
 app.post('/proveedores', async (req, res) => {
@@ -49,7 +50,7 @@ app.post('/proveedores', async (req, res) => {
     res.status(201).json({ mensaje: 'Proveedor creado con éxito' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al crear el proveedor' }); 
+    res.status(500).json({ error: 'Error al crear el proveedor' });  
   }
 });
 
