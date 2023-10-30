@@ -1,19 +1,15 @@
-module.exports = class CreateProductoDto{
+module.exports = class CreateInventarioDto{
 
 
     id_producto;
-    nombre_producto;
-    descripcion;
-    tipo;
+    calibre;
     cantidad;
     unidad;
     
     constructor(data) {
       console.log(data)
       this.id_producto = data.id_producto;
-      this.nombre_producto = data.nombre_producto;
-      this.descripcion = data.descripcion;
-      this.tipo = data.tipo;
+      this.calibre = data.calibre; 
       this.cantidad = data.cantidad;
       this.unidad = data.unidad;
     }

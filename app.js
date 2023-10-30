@@ -14,6 +14,9 @@ dbConnection();
 const productos = require('./productos/productos_controlador');
 app.use('/productos', productos)
 
+const inventario = require('./inventario/inventario_controlador');
+app.use('/inventario', inventario)
+
 const port = process.env.PORT;
 
 // Modelo de Proveedor

@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 
-const productoSchema = new mongoose.Schema({    
+const productoSchema = new mongoose.Schema({
+  
+    id_producto: {
+      type: Number,
+      unique: true // No debe repetirse el ID
+    },
     nombre_producto: String,
     descripcion: String,
-    tipo: String, // imporado | nacional
+    tipo: String, // importado | nacional
     cantidad: Number,
     unidad: String // calibre/kilos/
 });
