@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const inventarioSchema = new mongoose.Schema({
     id_producto: String,
-    calibre: Number, 
+    calibre: String, 
     cantidad: Number, 
     unidad: String // calibre/kilos/ 
 });

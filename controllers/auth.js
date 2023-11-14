@@ -18,7 +18,7 @@ const crearUsuario= async (req, res = response ) => {
                 ok: false,
                 msg: 'Un usuario ya existe con ese correo'
             });
-        }
+        } 
 
         usuario = new Usuario (req.body);
 
