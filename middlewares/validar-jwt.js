@@ -1,22 +1,20 @@
-const { response } = require('express');
+// const { response } = require('express');
 const jwt = require('jsonwebtoken');
 
 
-const validarJWT = async (req, res= response, next ) => {
+const validarJWT = async (req, res, next ) => {
 
-
-    //X-TOKEN Headers 
-    const token = req.header('x-token');
-
-    if (!token ) {
-        return res.status(401).json({
-            ok: false,
-            msg: 'No hay token en la peticion'
-        });
-    }
-
+    
+    
+    
     try {
-
+        
+        const authHeader = req.headers['authorization'];
+        const token = authHeader.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Formato de token inválido' });
+        } 
+        
         const {uid, name} = jwt.verify(
             token, 
             process.env.SECRET_JWT_SEED
@@ -25,6 +23,8 @@ const validarJWT = async (req, res= response, next ) => {
 
         req.uid = uid; 
         req.name = name;
+        //Revalidar json web tokens
+        next(); 
 
         
     } catch (error) {
@@ -33,10 +33,6 @@ const validarJWT = async (req, res= response, next ) => {
             msg: 'token no valido'
         })        
     }
-
-
-    //Revalidar json web tokens
-    next();
 
 }
 

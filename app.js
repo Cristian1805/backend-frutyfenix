@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 require('dotenv').config()
 const { dbConnection } = require('./database/config');
 
+const { validarJWT } = require('./middlewares/validar-jwt');
+
 
 const app = express();
 
@@ -15,10 +17,10 @@ app.use(cors());
 dbConnection();
 
 const productos = require('./productos/productos_controlador');
-app.use('/productos', productos)
+app.use('/productos', validarJWT, productos) 
 
 const inventario = require('./inventario/inventario_controlador');
-app.use('/inventario', inventario)
+app.use('/inventario', validarJWT, inventario) 
 
 const port = process.env.PORT;
 
