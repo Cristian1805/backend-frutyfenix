@@ -1,0 +1,18 @@
+info:
+  name: Ver Todos
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{baseUrl}}/productos"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

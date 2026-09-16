@@ -1,0 +1,27 @@
+info:
+  name: Crear Proveedor
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/proveedores"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Frutas del Valle",
+        "direccion": "Calle Principal #123",
+        "correo": "contacto@frutasvalle.com",
+        "telefono": "3001234567"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,32 @@
+opencollection: 1.0.0
+
+info:
+  name: FrutyFenix API
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  variables:
+    - name: baseUrl
+      value: http://localhost:5174
+    - name: token
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2YWEyMzQ2YTVmZDcxMzM5MDZjMWQwZjciLCJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImlhdCI6MTc4OTE2MDI1MywiZXhwIjoxNzg5MTc0NjUzfQ.FkyidUL5XxqNnyFxPsFe_6NLsREz4kL4wN042r3wGmU
+
+docs:
+  content: API Backend FrutyFenix - Productos, Inventario, Proveedores y Auth
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git

@@ -1,0 +1,27 @@
+info:
+  name: Actualizar Producto
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/productos/ID_AQUI"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Manzana Golden",
+        "precio": 4500
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

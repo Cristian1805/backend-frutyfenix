@@ -1,0 +1,28 @@
+info:
+  name: Crear Producto
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/productos"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Manzana",
+        "precio": 5000,
+        "descripcion": "Manzana roja fresca"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,28 @@
+info:
+  name: Crear Inventario
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/inventario"
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "id_producto": "ID_PRODUCTO",
+        "calibre": "extra",
+        "cantidad": 100
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -56,7 +56,7 @@ const crearUsuario= async (req, res = response ) => {
     
 }
 
-const loginUsuario = async (req, res = reponse) => {
+const loginUsuario = async (req, res = response) => {
     
     
     
@@ -108,7 +108,7 @@ const loginUsuario = async (req, res = reponse) => {
     }
 }
 
-const revalidarToken = async (req, res = reponse) => {
+const revalidarToken = async (req, res = response) => {
 
 
     const { uid, name } = req

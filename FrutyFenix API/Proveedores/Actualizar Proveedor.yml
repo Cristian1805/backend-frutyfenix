@@ -1,0 +1,25 @@
+info:
+  name: Actualizar Proveedor
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/proveedores/ID_AQUI"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "nombre": "Frutas del Valle Updated",
+        "telefono": "3009876543"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
