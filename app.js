@@ -13,8 +13,31 @@ const app = express();
 // Middleware para habilitar CORS -> Seguridad en las rutas
 app.use(cors()); 
 
-//Configurarion de base de datos
-dbConnection();
+//Parseo y lectura del body
+app.use(express.json());
+
+// Comprobación de disponibilidad que también verifica MongoDB Atlas.
+app.get('/health', async (req, res) => {
+  try {
+    await dbConnection();
+    res.json({ ok: true, database: 'connected' });
+  } catch (error) {
+    res.status(503).json({ ok: false, database: 'disconnected' });
+  }
+});
+
+// Esperar la conexión en cada instancia serverless antes de acceder a los modelos.
+app.use(async (req, res, next) => {
+  try {
+    await dbConnection();
+    next();
+  } catch (error) {
+    res.status(503).json({
+      ok: false,
+      msg: 'La base de datos no está disponible. Verifique la configuración del servidor.',
+    });
+  }
+});
 
 const productos = require('./productos/productos_controlador');
 app.use('/productos', validarJWT, productos) 
@@ -34,10 +57,6 @@ const proveedorSchema = new mongoose.Schema({
 
 const Proveedor = mongoose.model('Proveedor', proveedorSchema);
 
-
-
-//Parseo y lectura del body
-app.use(express.json());
 
 
 //Ruta para autenticacion del usuario
@@ -82,7 +101,11 @@ app.delete('/proveedores/:id', async (req, res) => {
   res.send(response)
 })
 
-// Iniciar el servidor
-app.listen(process.env.PORT, () => {
-  console.log(`Servidor Express corriendo en el puerto ${port}`);
-});
+// Vercel consume la aplicación exportada. El listener solo se inicia en ejecución local.
+if (process.env.VERCEL !== '1' && require.main === module) {
+  app.listen(port || 3000, () => {
+    console.log(`Servidor Express corriendo en el puerto ${port || 3000}`);
+  });
+}
+
+module.exports = app;
